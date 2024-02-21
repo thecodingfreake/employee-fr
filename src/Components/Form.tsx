@@ -7,7 +7,7 @@ const Form = () => {
   const [formdata, setFormdata] = useState<any>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/get")
+    axios.get("https://employee-bk.onrender.com/get")
       .then(res => setFormdata(res.data))
       .catch(err => console.log(err));
   }, []);
@@ -22,7 +22,7 @@ const Form = () => {
       "gender": data.gender,
       "department": data.department
     };
-    axios.post("http://localhost:3000/entry", newI, {
+    axios.post("https://employee-bk.onrender.com/entry", newI, {
       headers: {
         'Content-Type': 'application/json',
       }
