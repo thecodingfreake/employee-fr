@@ -4,6 +4,7 @@ import axios from 'axios';
 const Form = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [formdata, setFormdata] = useState<any>([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const employeesPerPage = 5;
 
@@ -14,6 +15,7 @@ const Form = () => {
   }, []);
 
   const submission = (data:any) => {
+    console.log(currentPage)
     const newI = {
       "id": data.id,
       "ename": data.name,
