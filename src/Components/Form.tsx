@@ -9,7 +9,7 @@ const Form = () => {
   const employeesPerPage = 5;
 
   useEffect(() => {
-    axios.get("http://localhost:3000/get")
+    axios.get("https://employee-bk.onrender.com/get")
       .then(res => setFormdata(res.data))
       .catch(err => console.log(err));
   }, []);
@@ -25,7 +25,7 @@ const Form = () => {
       "gender": data.gender,
       "department": data.department
     };
-    axios.post("http://localhost:3000/entry", newI, {
+    axios.post("https://employee-bk.onrender.com/entry", newI, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -83,7 +83,7 @@ const today = new Date().toISOString().split('T')[0]
  
 
   const handleDelete = (id: number) => {
-    axios.delete(`http://localhost:3000/${id}`)
+    axios.delete(`https://employee-bk.onrender.com/${id}`)
       .then((res:any) => {
         console.log(res)
         setFormdata((prevData:any) => prevData.filter((employee :any)=> employee.id !== id));
