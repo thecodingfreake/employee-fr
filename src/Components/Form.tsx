@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 const Form = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [formdata, setFormdata] = useState<any>([]);
@@ -238,7 +239,11 @@ const today = new Date().toISOString().split('T')[0]
           </button>
         </form>
       </div>
-
+      <Link to="/add">
+          <button style={{ marginTop: '16px', padding: '8px', cursor: 'pointer', backgroundColor: 'blue', color: 'white' }}>
+            update books
+          </button>
+        </Link>
       <div>
         <table className="table table-striped">
           <thead className="thead-dark">
