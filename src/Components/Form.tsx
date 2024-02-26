@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import * as XLSX from 'xlsx';
+
 const Form = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [formdata, setFormdata] = useState<any>([]);
@@ -114,6 +116,48 @@ const today = new Date().toISOString().split('T')[0]
 
   const handlePageClick = (pageNumber:any) => {
     setCurrentPage(pageNumber);
+  };
+  const downloadExcel = () => {
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Add a worksheet with the analysis report data
+    const worksheet = XLSX.utils.json_to_sheet(Object.entries(departmentReports).map(([department, data]:any) => ({
+      Department: department,
+      'Total Employees': data.totalEmployees,
+      'Total Male': data.totalMale,
+      'Total Female': data.totalFemale,
+      'Total Salary': data.totalSalary,
+      'Total Designations': Object.entries(data.totalDesignations).map(([designation, count]) => `${designation}: ${count}`).join(', ')
+    })));
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Analysis Report');
+
+    // Generate binary string from the workbook
+    const excelData = XLSX.write(workbook, { bookType: 'xlsx', type: 'binary' });
+
+    // Convert binary string to blob
+    const blob = new Blob([s2ab(excelData)], { type: 'application/octet-stream' });
+
+    // Trigger a download
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'AnalysisReport.xlsx';
+    a.click();
+
+    // Release the URL object
+    URL.revokeObjectURL(url);
+  };
+
+  // Utility function to convert binary string to array buffer
+  const s2ab = (s:any) => {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i !== s.length; ++i) {
+      view[i] = s.charCodeAt(i) & 0xFF;
+    }
+    return buf;
   };
 
   return (
@@ -244,6 +288,14 @@ const today = new Date().toISOString().split('T')[0]
             update employee
           </button>
         </Link>
+        <div>
+        <button
+          onClick={downloadExcel}
+          style={{ marginTop: '16px', padding: '8px', cursor: 'pointer', backgroundColor: 'green', color: 'white' }}
+        >
+          Download Analysis Report
+        </button>
+      </div>
       <div>
         <table className="table table-striped">
           <thead className="thead-dark">
