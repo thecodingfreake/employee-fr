@@ -241,7 +241,7 @@ const today = new Date().toISOString().split('T')[0]
       </div>
       <Link to="/add">
           <button style={{ marginTop: '16px', padding: '8px', cursor: 'pointer', backgroundColor: 'blue', color: 'white' }}>
-            update books
+            update employee
           </button>
         </Link>
       <div>
